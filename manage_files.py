@@ -1,4 +1,5 @@
-import os, shutil
+import os
+import shutil
 
 create_file = ["m fi", "fi m", "make file", "file make"]
 create_folder = ["m fo", "fo m", "make folder", "folder make"]
@@ -8,10 +9,11 @@ move_file = ["mo fi", "fi mo", "move file", "file move"]
 move_folder = ["mo fo", "fo mo", "move folder", "folder move"]
 del_folder_without_files = ["d fo", "fo d", "delete folder without files", "folder delete"]
 exit_func = ["exit", "bye", "leave", "nothing"]
-same_cmd_mutli_times = ["sc mt", "mt sc", "same command multiple times", "command multiple", "mutiple", "multiple command"]
+same_cmd_mutli_times = ["sc mt", "mt sc", "same command multiple times", "mutiple commands"]
 
 # <-- Add the list whenever more commands are added -->
-all_cmd_entries = create_file + create_folder + remove_file + remove_folder + move_file + move_folder + del_folder_without_files + exit_func
+all_cmd_entries = create_file + create_folder + remove_file + remove_folder + move_file
+all_cmd_entries += move_folder + del_folder_without_files + exit_func
 
 def Create_File(need_output, fileName):
     try:
@@ -92,7 +94,7 @@ def Move_Folder(need_output, folderName, folderName_to):
 
         Remove_Folder(False, folderName)
         Create_Folder(False, f'{folderName_to}/{folderName}')
-        
+
         for file_make in range(len(files)):
             file_open = open(f'{folderName_to}/{folderName}/{files[file_make]}', 'w+')
             file_open.write(contents[file_make])
@@ -122,7 +124,7 @@ def Delete_Folder_Without_Files(need_output, folderName):
         file_open.write(contents[file_make])
         file_open.close()
     if need_output == True:
-        print(f"\nAll the files present in {folderName} are shifted to the present directory/folder.")
+        print(f"\nAll the files present in {folderName} are shifted to the present directory.")
 
 def Same_Command__Multiple_Times(need_output, cmd, all_cmds = all_cmd_entries):
     cmd = cmd.lower().strip()
