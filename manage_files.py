@@ -1,5 +1,11 @@
+# Imports
 import os
 import shutil
+
+'''
+Things to add-
+1. Directory Tree
+'''
 
 create_file = ["m fi", "fi m", "make file", "file make"]
 create_folder = ["m fo", "fo m", "make folder", "folder make"]
@@ -15,23 +21,23 @@ same_cmd_mutli_times = ["sc mt", "mt sc", "same command multiple times", "mutipl
 all_cmd_entries = create_file + create_folder + remove_file + remove_folder + move_file
 all_cmd_entries += move_folder + del_folder_without_files + exit_func
 
-def Create_File(need_output, fileName):
+def create_file(need_output, file_name):
     try:
-        file_open = open(f"{fileName}", "w+")
+        file_open = open(f"{file_name}", "w+")
         file_open.write("")
         file_open.close()
         if need_output == True:
-            print(f'{fileName} Made!')
+            print(f'{file_name} Made!')
     except FileNotFoundError:
         if need_output == True:
             print("No included file or folder found.")
 
-def Create_Folder(need_output, folderName):
+def create_folder(need_output, folder_name):
     try:
-        if not os.path.isdir(folderName):
-            os.mkdir(f'./{folderName}/')
+        if not os.path.isdir(folder_name):
+            os.mkdir(f'./{folder_name}/')
             if need_output == True:
-                print(f'{folderName} Made!')
+                print(f'{folder_name} Made!')
         else:
             if need_output == True:
                 print("Folder already exists.")
@@ -39,27 +45,27 @@ def Create_Folder(need_output, folderName):
         if need_output == True:
             print(err)
 
-def Remove_File(need_output, fileName):
-    if os.path.exists(fileName):
-        os.remove(fileName)
+def remove_file(need_output, file_name):
+    if os.path.exists(file_name):
+        os.remove(file_name)
         if need_output == True:
-            print(f"{fileName} Removed!")
+            print(f"{file_name} Removed!")
     else:
         if need_output == True:
-            print(f"{fileName} doesn't exist!")
+            print(f"{file_name} doesn't exist!")
 
-def Remove_Folder(need_output, folderName):
-    if os.path.isdir(folderName):
-        shutil.rmtree(folderName)
+def remove_folder(need_output, folder_name):
+    if os.path.isdir(folder_name):
+        shutil.rmtree(folder_name)
         if need_output == True:
-            print(f'{folderName} Removed!')
+            print(f'{folder_name} Removed!')
     else:
         if need_output == True:
             print("Folder doesn't exist!")
 
-def Move_File(need_output, fileName, folderName):
-    if os.path.exists(fileName):
-        file = open(f'{fileName}', 'r')
+def move_file(need_output, file_name, folder_name):
+    if os.path.exists(file_name):
+        file = open(f'{file_name}', 'r')
         contents = file.read()
         file.close()
     else:
@@ -68,65 +74,65 @@ def Move_File(need_output, fileName, folderName):
             print("File not found.")
         return
 
-    Create_Folder(False, folderName)
-    Create_File(False, f'{folderName}/{fileName}')
-    file = open(f'{folderName}/{fileName}', 'w+')
+    create_folder(False, folder_name)
+    create_file(False, f'{folder_name}/{file_name}')
+    file = open(f'{folder_name}/{file_name}', 'w+')
     file.write(contents)
     file.close()
-    Remove_File(False, fileName)
+    remove_file(False, file_name)
     if need_output == True:
-        print(f"{fileName} has been moved to {folderName}.")
+        print(f"{file_name} has been moved to {folder_name}.")
 
-def Move_Folder(need_output, folderName, folderName_to):
+def move_folder(need_output, folder_name, folder_name_to):
     files, contents = [], []
-    if os.path.isdir(folderName):
-        Create_Folder(False, folderName_to)
+    if os.path.isdir(folder_name):
+        create_folder(False, folder_name_to)
         if need_output == True:
             print('Files being Moved:')
-        for file_n in os.scandir(folderName):
-            fileName = f'{file_n}'[11:-2]
+        for file_n in os.scandir(folder_name):
+            file_name = f'{file_n}'[11:-2]
             if need_output == True:
-                print(fileName)
-            files.append(fileName)
-            file_open = open(f'{folderName}/{fileName}', 'r')
+                print(file_name)
+            files.append(file_name)
+            file_open = open(f'{folder_name}/{file_name}', 'r')
             contents.append(file_open.read())
             file_open.close()
 
-        Remove_Folder(False, folderName)
-        Create_Folder(False, f'{folderName_to}/{folderName}')
+        remove_folder(False, folder_name)
+        create_folder(False, f'{folder_name_to}/{folder_name}')
 
         for file_make in range(len(files)):
-            file_open = open(f'{folderName_to}/{folderName}/{files[file_make]}', 'w+')
+            file_open = open(f'{folder_name_to}/{folder_name}/{files[file_make]}', 'w+')
             file_open.write(contents[file_make])
             file_open.close()
         if need_output == True:
-            print(f"\n{folderName} is shifted to {folderName_to}.")
+            print(f"\n{folder_name} is shifted to {folder_name_to}.")
     else:
         if need_output == True:
             print("File not found.")
         return
 
-def Delete_Folder_Without_Files(need_output, folderName):
+def delete_folder_without_files(need_output, folder_name):
     files, contents = [], []
     if need_output == True:
-        print(f"\nPresent Files in {folderName}:")
-    for file_n in os.scandir(folderName):
-        fileName = f'{file_n}'[11:-2]
+        print(f"\nPresent Files in {folder_name}:")
+    for file_n in os.scandir(folder_name):
+        file_name = f'{file_n}'[11:-2]
         if need_output == True:
-            print(fileName)
-        files.append(fileName)
-        file_open = open(f'{folderName}/{fileName}', 'r')
+            print(file_name)
+        files.append(file_name)
+        file_open = open(f'{folder_name}/{file_name}', 'r')
         contents.append(file_open.read())
         file_open.close()
-    Remove_Folder(False, folderName)
+    remove_folder(False, folder_name)
     for file_make in range(len(files)):
         file_open = open(f'{files[file_make]}', 'w+')
         file_open.write(contents[file_make])
         file_open.close()
     if need_output == True:
-        print(f"\nAll the files present in {folderName} are shifted to the present directory.")
+        print(f"\nAll the files present in {folder_name} are shifted to the present directory.")
 
-def Same_Command__Multiple_Times(need_output, cmd, all_cmds = all_cmd_entries):
+def same_command__multiple_times(need_output, cmd, all_cmds = all_cmd_entries):
     cmd = cmd.lower().strip()
     times = 0
     try:
@@ -136,9 +142,9 @@ def Same_Command__Multiple_Times(need_output, cmd, all_cmds = all_cmd_entries):
         return 'Command Not Executed!'
     print()
     if cmd in all_cmds:
-        Inner_Execute(pre_cmd = cmd, times = times)
+        inner_execute(pre_cmd = cmd, times = times)
 
-def Inner_Execute(pre_cmd = '', times = 0, create_file = create_file, create_folder = create_folder, remove_file = remove_file, remove_folder = remove_folder, move_file = move_file, move_folder = move_folder, del_folder_without_files = del_folder_without_files, same_cmd_mutli_times = same_cmd_mutli_times, exit_func = exit_func):
+def inner_execute(pre_cmd = '', times = 0, create_file = create_file, create_folder = create_folder, remove_file = remove_file, remove_folder = remove_folder, move_file = move_file, move_folder = move_folder, del_folder_without_files = del_folder_without_files, same_cmd_mutli_times = same_cmd_mutli_times, exit_func = exit_func):
     command_execute, cmd_method, i = True, True, False
     if pre_cmd != '':
         command_execute = False
@@ -149,21 +155,21 @@ def Inner_Execute(pre_cmd = '', times = 0, create_file = create_file, create_fol
         if command_execute == True: cmd = input("Enter the Command: ")
         cmd = cmd.lower().strip()
         if cmd in create_file:
-            Create_File(True, input('Enter the File Name (With Extension): ').strip())
+            create_file(True, input('Enter the File Name (With Extension): ').strip())
         elif cmd in create_folder:
-            Create_Folder(True, input("Enter the Folder Name: ").strip())
+            create_folder(True, input("Enter the Folder Name: ").strip())
         elif cmd in remove_file:
-            Remove_File(True, input("Enter the File Name (With Extension): ").strip())
+            remove_file(True, input("Enter the File Name (With Extension): ").strip())
         elif cmd in remove_folder:
-            Remove_Folder(True, input("Enter the Folder Name: ").strip())
+            remove_folder(True, input("Enter the Folder Name: ").strip())
         elif cmd in move_file:
-            Move_File(True, input("Enter the File Name you want to move (With Extension): ").strip(), input("Enter the Folder Name you want to move the file to: ").strip())
+            move_file(True, input("Enter the File Name you want to move (With Extension): ").strip(), input("Enter the Folder Name you want to move the file to: ").strip())
         elif cmd in move_folder:
-            Move_Folder(True, input("Enter the Folder Name you want to move: ").strip(), input("Enter the Folder Name you want to move the first folder to: ").strip())
+            move_folder(True, input("Enter the Folder Name you want to move: ").strip(), input("Enter the Folder Name you want to move the first folder to: ").strip())
         elif cmd in del_folder_without_files:
-            Delete_Folder_Without_Files(True, input("Enter the Folder Name: ").strip())
+            delete_folder_without_files(True, input("Enter the Folder Name: ").strip())
         elif cmd in same_cmd_mutli_times:
-            Same_Command__Multiple_Times(True, input("Enter the Command you want to execute multipe times: "))
+            same_command__multiple_times(True, input("Enter the Command you want to execute multipe times: "))
         elif cmd in exit_func:
             break
         else:
@@ -172,4 +178,4 @@ def Inner_Execute(pre_cmd = '', times = 0, create_file = create_file, create_fol
         print()
 
 inner_execute = True
-if inner_execute == True: Inner_Execute()
+if inner_execute == True: inner_execute()
