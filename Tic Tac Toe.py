@@ -1,16 +1,6 @@
-#  Imports
-import os, sys, inspect
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir)
-try:
-    from imp_func import Colour_List
-except ModuleNotFoundError:
-    print('Oops! Module not Found.')
-
 #  Variables
 board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-players = ['x', 'O']
+players = ['X', 'O']
 
 #  Colours
 Red = '\033[0;31;49m'
@@ -38,13 +28,13 @@ def Chance(player, board):
     while board[move] != ' ':
         print('Move already occupied!')
         move = int(input(f'Move -> {player}: '))-1
+    
     board[move] = player
-    if player == 'O': player = 'X'
-    else: player = 'O'
+    if player == 'O':
+        player = 'X'
+    else:
+        player = 'O'
     return player, board
-
-#print('----------')
-#print('OOOOOOOOOO')
 
 Board([1, 2, 3, 4, 5, 6, 7, 8, 9])
 player = 'X'
