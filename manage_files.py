@@ -145,7 +145,7 @@ def same_command__multiple_times(need_output, cmd, all_cmds = all_cmd_entries):
     if cmd in all_cmds and run_ahead == True:
         inner_execute(pre_cmd = cmd, times = times)
 
-def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, same_cmd__multi_times = same_cmd__multi_times) # create_file = create_file, create_folder = create_folder, remove_file = remove_file, remove_folder = remove_folder, move_file = move_file, move_folder = move_folder, del_folder_without_files = del_folder_without_files, same_cmd_mutli_times = same_cmd_mutli_times, exit_func = exit_func):
+def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, same_cmd__multi_times = same_cmd__multi_times): # create_file = create_file, create_folder = create_folder, remove_file = remove_file, remove_folder = remove_folder, move_file = move_file, move_folder = move_folder, del_folder_without_files = del_folder_without_files, same_cmd_mutli_times = same_cmd_mutli_times, exit_func = exit_func):
     command_execute, cmd_method, i = True, True, False
     if pre_cmd != '':
         command_execute = False
