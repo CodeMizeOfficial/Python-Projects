@@ -1,11 +1,10 @@
+# pylint: disable = missing-docstring
 # Imports
 import os
 import shutil
 
-'''
-Things to add-
-1. Directory Tree
-'''
+# Things to add-
+# 1. Directory Tree
 
 create__file = ["m fi", "fi m", "make file", "file make"]
 create__folder = ["m fo", "fo m", "make folder", "folder make"]
@@ -15,7 +14,7 @@ move__file = ["mo fi", "fi mo", "move file", "file move"]
 move__folder = ["mo fo", "fo mo", "move folder", "folder move"]
 del_folder__without_files = ["d fo", "fo d", "delete folder without files", "folder delete"]
 exit__func = ["exit", "bye", "leave", "nothing"]
-same_cmd__mutli_times = ["sc mt", "mt sc", "same command multiple times", "mutiple commands"]
+same_cmd__multi_times = ["sc mt", "mt sc", "same command multiple times", "mutiple commands"]
 
 # <-- Add the list whenever more commands are added -->
 all_cmd_entries = create__file + create__folder + remove__file + remove__folder + move__file
@@ -132,7 +131,7 @@ def delete_folder_without_files(need_output, folder_name):
     if need_output:
         print(f"\nAll the files present in {folder_name} are shifted to the present directory.")
 
-def same_command__multiple_times(need_output, cmd, all_cmds = all_cmd_entries):
+def same_command__multiple_times(cmd, all_cmds = all_cmd_entries):
     cmd = cmd.lower().strip()
     times = 0
     run_ahead = True
@@ -142,10 +141,10 @@ def same_command__multiple_times(need_output, cmd, all_cmds = all_cmd_entries):
         print('The number of times you entered doesn\'t seem to be a number. Please try again.')
         run_ahead = False
     print()
-    if cmd in all_cmds and run_ahead == True:
+    if cmd in all_cmds and bool(run_ahead):
         inner_execute(pre_cmd = cmd, times = times)
 
-def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, same_cmd__multi_times = same_cmd__multi_times): # create_file = create_file, create_folder = create_folder, remove_file = remove_file, remove_folder = remove_folder, move_file = move_file, move_folder = move_folder, del_folder_without_files = del_folder_without_files, same_cmd_mutli_times = same_cmd_mutli_times, exit_func = exit_func):
+def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, same_cmd__multi_times = same_cmd__multi_times):
     command_execute, cmd_method, i = True, True, False
     if pre_cmd != '':
         command_execute = False
@@ -153,7 +152,8 @@ def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, sa
         cmd_method = times
         i = 0
     while i != cmd_method:
-        if command_execute: cmd = input("Enter the Command: ")
+        if command_execute:
+            cmd = input("Enter the Command: ")
         cmd = cmd.lower().strip()
         if cmd in all_cmd_entries[0]:
             create_file(True, input('Enter the File Name (With Extension): ').strip())
@@ -164,19 +164,25 @@ def inner_execute(pre_cmd = '', times = 0, all_cmd_entries = all_cmd_entries, sa
         elif cmd in all_cmd_entries[3]:
             remove_folder(True, input("Enter the Folder Name: ").strip())
         elif cmd in all_cmd_entries[4]:
-            move_file(True, input("Enter the File Name you want to move (With Extension): ").strip(), input("Enter the Folder Name you want to move the file to: ").strip())
+            file_name = input("Enter the File Name you want to move (With Extension): ").strip()
+            folder_name = input("Enter the Folder Name you want to move the file to: ").strip()
+            move_file(True, file_name, folder_name)
         elif cmd in all_cmd_entries[5]:
-            move_folder(True, input("Enter the Folder Name you want to move: ").strip(), input("Enter the Folder Name you want to move the first folder to: ").strip())
+            folder_name = input("Enter the Folder Name you want to move: ").strip()
+            folder_name_to = input("Enter the Folder Name you want to move the first folder to: ").strip()
+            move_folder(True, folder_name, folder_name_to)
         elif cmd in all_cmd_entries[6]:
             delete_folder_without_files(True, input("Enter the Folder Name: ").strip())
         elif cmd in same_cmd__multi_times:
-            same_command__multiple_times(True, input("Enter the Command you want to execute multipe times: "))
+            command_m = input("Enter the Command you want to execute multipe times: ")
+            same_command__multiple_times(True, command_m)
         elif cmd in all_cmd_entries[7]:
             break
         else:
             print("Please provide a valid command!")
-        if type(i) == int: i += 1
+        if isinstance(i, int):
+            i += 1
         print()
 
-inner__execute = True
-if inner__execute: inner_execute()
+INNER_EXECUTE = True
+if INNER_EXECUTE: inner_execute()
