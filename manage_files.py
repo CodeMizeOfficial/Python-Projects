@@ -22,9 +22,8 @@ all_cmd_entries += move__folder + del_folder__without_files + exit__func
 
 def create_file(need_output, file_name):
     try:
-        file_open = open(f"{file_name}", "w+")
-        file_open.write("")
-        file_open.close()
+        with open(f"{file_name}", "w+") as fp:
+            fp.write("")
         if need_output:
             print(f'{file_name} Made!')
     except FileNotFoundError:
@@ -64,9 +63,8 @@ def remove_folder(need_output, folder_name):
 
 def move_file(need_output, file_name, folder_name):
     if os.path.exists(file_name):
-        file = open(f'{file_name}', 'r')
-        contents = file.read()
-        file.close()
+        with open(f'{file_name}', 'r') as fp:
+            contents = fp.read()
     else:
         contents = ""
         if need_output:
@@ -75,9 +73,8 @@ def move_file(need_output, file_name, folder_name):
 
     create_folder(False, folder_name)
     create_file(False, f'{folder_name}/{file_name}')
-    file = open(f'{folder_name}/{file_name}', 'w+')
-    file.write(contents)
-    file.close()
+    with open(f'{folder_name}/{file_name}', 'w+') as fp:
+        fp.write(contents)
     remove_file(False, file_name)
     if need_output:
         print(f"{file_name} has been moved to {folder_name}.")
@@ -93,17 +90,15 @@ def move_folder(need_output, folder_name, folder_name_to):
             if need_output:
                 print(file_name)
             files.append(file_name)
-            file_open = open(f'{folder_name}/{file_name}', 'r')
-            contents.append(file_open.read())
-            file_open.close()
+            with open(f'{folder_name}/{file_name}', 'r') as fp:
+                contents.append(fp.read())
 
         remove_folder(False, folder_name)
         create_folder(False, f'{folder_name_to}/{folder_name}')
 
         for file_make in range(len(files)):
-            file_open = open(f'{folder_name_to}/{folder_name}/{files[file_make]}', 'w+')
-            file_open.write(contents[file_make])
-            file_open.close()
+            with open(f'{folder_name_to}/{folder_name}/{files[file_make]}', 'w+') as fp:
+                fp.write(contents[file_make])
         if need_output:
             print(f"\n{folder_name} is shifted to {folder_name_to}.")
     else:
@@ -120,14 +115,12 @@ def delete_folder_without_files(need_output, folder_name):
         if need_output:
             print(file_name)
         files.append(file_name)
-        file_open = open(f'{folder_name}/{file_name}', 'r')
-        contents.append(file_open.read())
-        file_open.close()
+        with open(f'{folder_name}/{file_name}', 'r') as fp:
+            contents.append(fp.read())
     remove_folder(False, folder_name)
     for file_make in range(len(files)):
-        file_open = open(f'{files[file_make]}', 'w+')
-        file_open.write(contents[file_make])
-        file_open.close()
+        with open(f'{files[file_make]}', 'w+') as fp:
+            fp.write(contents[file_make])
     if need_output:
         print(f"\nAll the files present in {folder_name} are shifted to the present directory.")
 
